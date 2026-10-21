@@ -1,0 +1,81 @@
+name: Checks and Windows release
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: nonce-seeker-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  reference-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check-release.py
+      - run: rustup toolchain install stable --profile minimal
+      - run: cargo +stable test --locked -p proxima-vrf --lib
+      - run: cargo +stable test --locked -p proxima-keystore --lib
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          rustup toolchain install stable-x86_64-pc-windows-gnu --profile minimal
+          $env:PATH = 'C:/msys64/mingw64/bin;' + $env:PATH
+          $env:RUSTFLAGS = '-C link-self-contained=yes -C target-cpu=x86-64-v2 -C strip=symbols --remap-path-prefix=' + $env:GITHUB_WORKSPACE + '=/source --remap-path-prefix=' + $env:USERPROFILE + '=/builder'
+          cargo +stable-x86_64-pc-windows-gnu build --release --locked -p nonce_seeker --bin nonce_seeker_cuda
+          if ($LASTEXITCODE -ne 0) { throw 'CUDA seeker compilation failed' }
+          cargo +stable-x86_64-pc-windows-gnu metadata --format-version 1 --locked > dependency-metadata.json
+          if ($LASTEXITCODE -ne 0) { throw 'Dependency metadata failed' }
+          python scripts/package-release.py --exe target/release/nonce_seeker_cuda.exe --metadata dependency-metadata.json --out dist
+          if ($LASTEXITCODE -ne 0) { throw 'Release packaging failed' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64-sm86
+          path: dist/*
+          if-no-files-found: error
+  publish-release:
+    needs: [reference-tests, windows-build]
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-x64-sm86
+          path: dist
+      - name: Publish first standalone release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SOURCE_COMMIT: ${{ github.sha }}
+        run: |
+          set -eu
+          if gh release view v0.1.0 >/dev/null 2>&1; then
+            echo 'v0.1.0 already exists; never overwrite a published release.'
+            exit 0
+          fi
+          cat > release-notes.md <<'EOF'
+          Ready-to-run Windows x86-64 CUDA nonce seeker for SM86 GPUs.
+
+          Download and extract the ZIP. No Rust or CUDA toolkit is needed at runtime;
+          an NVIDIA driver and your own compatible Proxima mining job server are required.
+          See the included README for the GPU list and usage. The executable contains
+          no deployment configuration, wallet or credentials. SHA256 checksums and
+          dependency license texts are included.
+
+          Initial standalone prerelease: native CPU/protocol tests were run locally;
+          GitHub runners compile the executable but do not run GPU tests or live mining.
+          The bundled SM86 kernel is fixed to the source manifest. Linux and other
+          GPU architectures are not supported by this package.
+          EOF
+          gh release create v0.1.0 dist/*.zip dist/SHA256SUMS.txt \
+            --target "$SOURCE_COMMIT" --title 'CUDA nonce seeker v0.1.0 - Windows SM86' \
+            --prerelease --notes-file release-notes.md
+# No mining jobs, real wallet credentials or GPU execution in hosted CI.

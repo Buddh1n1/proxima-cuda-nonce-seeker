@@ -1,0 +1,11 @@
+[package]
+name = "cpu_vrf_bench"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+
+[dependencies]
+proxima-vrf = { path = "../vrf" }
+sha2 = "0.10"
+serde_json = "1"
+

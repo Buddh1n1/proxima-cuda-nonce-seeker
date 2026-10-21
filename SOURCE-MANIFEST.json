@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "source_lineage_commit": "60515d0074e63e467de6d63532c1236c1bec332a",
+  "files": {
+    "Cargo.lock": "68b217b4242ebb2f22c946114504a7a2579da6c85569b93c5be58836272e566e",
+    "Cargo.toml": "a59c4b32103250609d9c6104f740c68237316e3b1af268b15bd379e287034fa7",
+    "bench/Cargo.toml": "57627ff639bfe2f3b24d6d5c04ffa5e3c3733558084d21fd03cc88ef67fa1f90",
+    "bench/src/main.rs": "3d963565b9067bcdc5efb53ccd7e727a5e9c093e8c892011d390e3cece14c034",
+    "keystore/Cargo.toml": "a1c53d9b44aa63f6401119a1f5414a17ab0a4b6d1966e96c2bc085d1c18588a7",
+    "keystore/src/bin/keystore_tool.rs": "18c41285d9b55b635738e065cffe4f4fb664e2621ba3bcdb207d70c21bf1d34c",
+    "keystore/src/lib.rs": "b3d1bd2e4979d2c08c243567eaecaa07e22ecc41ddd2f334794643996a15b0f0",
+    "seeker/Cargo.toml": "c5874aa547c3d77a903dbde5a478eac00554c9a45cca4619284189adc07667dd",
+    "seeker/src/bin/gpu_cuda_bench.rs": "c2c7797f56bd3173054313b967bbc1f25d69ca846ec63b456ea47c6aad0beb49",
+    "seeker/src/bin/nonce_seeker_cuda.rs": "9d4c5b9d101f9e20af9a08a9a16ef1f046fc0d0ac18985c00111c72a17a28ff8",
+    "seeker/src/client.rs": "00c251e01bb424d82dc1bf4cdca43490376075b174c907db6452ec126490d88e",
+    "seeker/src/gpu_cuda.rs": "71e68dd209072a79012c9b2e34196429e8355baaeffca02cd98b16393e3ffb3c",
+    "seeker/src/identity_pool.rs": "b6d40fa701819d8e2bd47d96c40e64738b3d63633f04e16c437f8cc6769c3a01",
+    "seeker/src/job_protocol.rs": "cd0bb08e221b490fa218d8fec4cf2b688f492ac9aec6a0f4a1e2c0a20f5c64ba",
+    "seeker/src/kernel.cu": "a96579339c974a0f896e8b92f83d0cc876fd3242ed6fa2fddfd917eed0a89515",
+    "seeker/src/kernel.cubin": "1c1b68247039f7da1f741f8af7d0c759aaa8e90030f9b311c3e2c55f1a545d3b",
+    "seeker/src/key.rs": "fda55c9b112294a7aa623309b646e578fefc9ad7b346c40b48b04eaf00713425",
+    "seeker/src/protocol_tests.rs": "0895e926894f56361bed6a02021df0ebaaf72930d0535b7b0b0c4c9663db9534",
+    "vrf/Cargo.toml": "1b60ac68d5c1eebcadbf27559c052e641abf28e8d83a2b9e311f914caa1619e3",
+    "vrf/src/bin/vrf_tool.rs": "a8ba7e98837f93abbcd2b95f4e5237874e703fb4ef4b5874bd8f7f0b66438129",
+    "vrf/src/lib.rs": "ad0d8b1c41ba5bc5a0814f36d12c68d1023550cb1dcf2e6bf69cdd99c406b284"
+  },
+  "kernel_target": "sm_86",
+  "packaging_only": true
+}

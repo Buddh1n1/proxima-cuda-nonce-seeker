@@ -1,0 +1,17 @@
+This distribution contains an altered Proxima external nonce seeker and a CUDA
+backend. Rust crates retain their declared Apache-2.0 license. Proxima-origin
+material retains the MIT notice in LICENSES/Proxima-MIT.txt.
+
+Proxima: https://github.com/lunfardo314/proxima
+Source lineage: commit 60515d0074e63e467de6d63532c1236c1bec332a,
+with local CUDA, telemetry and persistent-job changes. Local changes are not
+represented as changes authored or endorsed by the Proxima project.
+
+CUDA field/group arithmetic derives from ref10 through solana-labs/solana-perf-libs
+commit 233c4457fd8d425da99cb3db46b2be8eb8b98997, as attributed in kernel.cu.
+Its altered-source notice and original license remain in the source and
+LICENSES/ref10.txt. SHA-512 derives from public-domain TweetNaCl (20140427).
+
+curve25519-dalek remains a Cargo registry dependency; its BSD notice is retained
+in LICENSES/curve25519-dalek.txt. Cargo.lock records dependency versions/checksums.
+No NVIDIA toolkit, driver DLL or runtime library is redistributed.
