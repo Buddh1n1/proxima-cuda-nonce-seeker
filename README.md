@@ -66,18 +66,69 @@ See [BUILD.md](BUILD.md) for kernel rebuilding and provenance limits.
 
 ## Use
 
-Start your own compatible `proxi node mine` job server separately. Substitute
-your own endpoint, token and local key file; these are placeholders:
+The GPU seeker does not connect to a sequencer directly. It asks your local
+`proxi node mine` process for search jobs. Run the miner and seeker in two
+terminals on the same Windows PC:
+
+1. First make sure your normal `proxi` wallet profile and node connection work.
+   In that profile's `proxi.yaml`, merge the following into `mine` (keep your
+   existing wallet, node and mining-target settings):
+
+   ```yaml
+   mine:
+     seeker:
+       listen: "127.0.0.1:8100"
+       token: ""
+       spawn: false
+   ```
+
+   `127.0.0.1` means this PC only. The empty token in this local example is
+   intentional. Do not expose an unauthenticated listener to a network.
+
+2. Start the miner in the directory containing your normal profile:
+
+   ```powershell
+   proxi node mine --workers 0
+   ```
+
+   Its banner should say it is serving nonce-seeker jobs on `127.0.0.1:8100`.
+   `--workers 0` leaves the search to the GPU seeker.
+
+3. In a second terminal, open the extracted release folder and start:
 
 ```powershell
-.\target\release\nonce_seeker_cuda.exe --proxi http://127.0.0.1:18775 --token YOUR_JOB_TOKEN --key-file YOUR_LOCAL_KEY_FILE --gpu --gpu-streams 6
+.\nonce_seeker_cuda.exe --proxi http://127.0.0.1:8100 --key-file "C:\path\to\your\proxima.key" --gpu --gpu-streams 6
 ```
+
+Replace the example key-file path with **your miner's existing local keystore
+file**, the path configured as `wallet.key_file`. The miner and seeker need the
+same mining key. Never use a key supplied by someone else's example. An
+encrypted key file will request its passphrase. A source build puts the EXE
+under `target\release\` instead of the extracted release folder.
+
+### What does `--token` mean?
+
+It is an optional **shared access password for the miner's job server**. It is
+not a wallet private key, seed, GitHub token or PROX token. You choose this
+password yourself; it is not downloaded or obtained from a sequencer.
+
+If you set a nonempty `mine.seeker.token` in the miner's profile, add
+`--token "the-same-password"` to the seeker command. Both values must match
+exactly; otherwise the miner rejects the connection with HTTP 401. If the
+miner has an empty token, as in the loopback-only example above, omit the
+entire `--token` option. Do not literally enter `YOUR_JOB_TOKEN`.
+
+For connections between different machines, use a long random password and a
+trusted private network or protected tunnel; the job protocol is plain HTTP.
+Keep the job password private and separate from your wallet passphrase. The
+token authorizes job/result access; it does not replace the local mining key
+required for the seeker's VRF computations.
 
 The seeker needs the mining key internally for VRF computation. Use only on a
 trusted local machine/GPU. Do not publish key files, passphrases, environment
 variables or command-line tokens. Restrict the miner's job server to a trusted
 interface. `--gpu-batch` accepts 1024 through 131072. GPU mode defaults to zero
-CPU search threads. `--help` lists the supported options.
+CPU search threads. Running without the required options prints usage.
 
 ## Tests
 
