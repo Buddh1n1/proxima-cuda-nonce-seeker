@@ -67,6 +67,7 @@ jobs:
           Attribution/documentation update: prominent modification notices in the
           adapted Rust files, retained third-party licenses, and an explanation
           that the official proxi miner already includes the mining job server.
+          A complete Windows mining guide is included in the repository and ZIP.
           The final source annotations are comments only; implementation and
           bundled CUDA kernel are unchanged. Two public-fixture GPU
           correctness tests also passed on RTX 3090 without network or wallet access.

@@ -5,6 +5,9 @@ Rust handles jobs, key loading and CPU verification; a CUDA kernel searches VRF
 nonces on an NVIDIA GPU. The miner completes proofs and publishes transactions.
 This is an unofficial implementation, not a node, wallet application or sequencer.
 
+**First time mining? Follow [Start mining on Windows, step by step](MINING-GUIDE.md)**
+for downloads, wallet setup, node connection, the two terminals and confirmation checks.
+
 ## What is included
 
 - Persistent jobs: stricter beat updates preserve the running search and its deadline.

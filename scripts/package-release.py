@@ -9,7 +9,7 @@ args = parser.parse_args()
 root = pathlib.Path(__file__).resolve().parents[1]
 metadata = json.loads(args.metadata.read_text(encoding='utf-8-sig'))
 payload = {'nonce_seeker_cuda.exe': args.exe.read_bytes()}
-for name in ['README.md', 'BUILD.md', 'LICENSE', 'NOTICE', 'SOURCE-MANIFEST.json']:
+for name in ['README.md', 'MINING-GUIDE.md', 'BUILD.md', 'LICENSE', 'NOTICE', 'SOURCE-MANIFEST.json']:
     payload[name] = (root / name).read_bytes()
 for p in sorted((root / 'LICENSES').glob('*')):
     if p.is_file():
