@@ -34,8 +34,9 @@ never fund or reuse them.
 For a ready-to-run Windows build, open this repository's **Releases** page and
 download `proxima-cuda-nonce-seeker-windows-x64-sm86.zip`. Extract the ZIP, check
 its `SHA256SUMS.txt`, and run `nonce_seeker_cuda.exe` using the example below.
-You still need an NVIDIA driver and your own compatible mining job server;
-Rust and the CUDA toolkit are not needed to run the packaged executable.
+You need an NVIDIA driver and the official **Proxima `proxi` miner**. Its mining
+job server is already built into `proxi node mine`; the local setup below enables
+it on the same PC. Rust and the CUDA toolkit are not needed to run this EXE.
 
 ### SM86 GPU models
 
@@ -69,6 +70,14 @@ See [BUILD.md](BUILD.md) for kernel rebuilding and provenance limits.
 The GPU seeker does not connect to a sequencer directly. It asks your local
 `proxi node mine` process for search jobs. Run the miner and seeker in two
 terminals on the same Windows PC:
+
+Get the official `proxi` CLI from the
+[Proxima releases page](https://github.com/lunfardo314/proxima/releases).
+The job-server support is present in official v1.1.0-take1; use an official version
+compatible with the network you are mining on. No modified miner or separately
+published server program from this project is required. You need your normal
+wallet profile and a working connection from `proxi` to a Proxima node. See the
+[upstream external-seeker guide](https://github.com/lunfardo314/proxima/blob/v1.1.0-take1/kb/external_nonce_seeker.md).
 
 1. First make sure your normal `proxi` wallet profile and node connection work.
    In that profile's `proxi.yaml`, merge the following into `mine` (keep your
@@ -146,6 +155,10 @@ protocol tests does not establish live-network acceptance or a mining profit rat
 ## License and attribution
 
 Retain [LICENSE](LICENSE), [NOTICE](NOTICE) and [LICENSES](LICENSES) when
-redistributing. The Rust crates declare Apache-2.0; Proxima-derived portions,
-curve25519-dalek and ref10 arithmetic retain their respective notices. This is
-not an official Proxima release or an endorsement by upstream authors.
+redistributing. The Rust crates declare Apache-2.0, as does the upstream Rust
+nonce-seeker crate. The top-level license does not replace the licenses of
+included third-party material: Proxima-derived MIT portions, BSD-licensed
+curve25519-dalek and the ref10/TweetNaCl arithmetic retain their respective
+notices. Changed upstream files are marked as modified; the release ZIP includes
+dependency license texts as well. This is not an official Proxima release or an
+endorsement by upstream authors.

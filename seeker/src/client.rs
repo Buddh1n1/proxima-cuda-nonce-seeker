@@ -1,3 +1,5 @@
+//! Modified for this standalone CUDA distribution: persistent-job identity fields
+//! and typed job/beat verdict handling. Original Apache-2.0 licensing is retained.
 //! The three calls of the seeker protocol (kb/external_nonce_seeker.md),
 //! over a blocking HTTP client. The seeker is the client: it dials the miner.
 

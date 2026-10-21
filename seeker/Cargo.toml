@@ -1,3 +1,5 @@
+# Modified for this standalone CUDA distribution: workspace-relative crate paths
+# and CUDA arithmetic dependencies. Original Apache-2.0 licensing is retained.
 [package]
 name = "nonce_seeker"
 version = "0.1.0"

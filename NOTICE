@@ -7,6 +7,11 @@ Source lineage: commit 60515d0074e63e467de6d63532c1236c1bec332a,
 with local CUDA, telemetry and persistent-job changes. Local changes are not
 represented as changes authored or endorsed by the Proxima project.
 
+Modified Rust files carry local-change notices. client.rs adapts persistent-job
+identity/verdict handling; seeker/Cargo.toml adds standalone paths and CUDA
+dependencies. The final attribution update adds comments only, without changing
+the implementation or any original third-party license terms.
+
 CUDA field/group arithmetic derives from ref10 through solana-labs/solana-perf-libs
 commit 233c4457fd8d425da99cb3db46b2be8eb8b98997, as attributed in kernel.cu.
 Its altered-source notice and original license remain in the source and

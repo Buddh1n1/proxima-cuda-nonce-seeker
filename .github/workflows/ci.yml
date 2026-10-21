@@ -57,20 +57,22 @@ jobs:
           SOURCE_COMMIT: ${{ github.sha }}
         run: |
           set -eu
-          if gh release view v0.1.1 >/dev/null 2>&1; then
-            echo 'v0.1.1 already exists; never overwrite a published release.'
+          if gh release view v0.1.2 >/dev/null 2>&1; then
+            echo 'v0.1.2 already exists; never overwrite a published release.'
             exit 0
           fi
           cat > release-notes.md <<'EOF'
           Ready-to-run Windows x86-64 CUDA nonce seeker for SM86 GPUs.
 
-          Documentation update: complete two-terminal local setup, SM86 GPU list,
-          and an explanation of the optional job-server password. Seeker code and
-          bundled CUDA kernel are unchanged from v0.1.0. Two public-fixture GPU
+          Attribution/documentation update: prominent modification notices in the
+          adapted Rust files, retained third-party licenses, and an explanation
+          that the official proxi miner already includes the mining job server.
+          The final source annotations are comments only; implementation and
+          bundled CUDA kernel are unchanged. Two public-fixture GPU
           correctness tests also passed on RTX 3090 without network or wallet access.
 
           Download and extract the ZIP. No Rust or CUDA toolkit is needed at runtime;
-          an NVIDIA driver and your own compatible Proxima mining job server are required.
+          an NVIDIA driver and official proxi miner with its built-in job server are required.
           See the included README for the GPU list and usage. The executable contains
           no deployment configuration, wallet or credentials. SHA256 checksums and
           dependency license texts are included.
@@ -80,7 +82,7 @@ jobs:
           The bundled SM86 kernel is fixed to the source manifest. Linux and other
           GPU architectures are not supported by this package.
           EOF
-          gh release create v0.1.1 dist/*.zip dist/SHA256SUMS.txt \
-            --target "$SOURCE_COMMIT" --title 'CUDA nonce seeker v0.1.1 - Windows SM86' \
+          gh release create v0.1.2 dist/*.zip dist/SHA256SUMS.txt \
+            --target "$SOURCE_COMMIT" --title 'CUDA nonce seeker v0.1.2 - Windows SM86' \
             --prerelease --notes-file release-notes.md
 # No mining jobs, real wallet credentials or GPU execution in hosted CI.

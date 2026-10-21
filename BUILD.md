@@ -1,9 +1,11 @@
 # Build and release notes
 
-The selected Rust/CUDA source files match the recorded persistent-job seeker
-build byte for byte. SOURCE-MANIFEST.json records the selected inputs. Packaging
-omits unused OpenCL experiments and operator files; it does not change the CUDA
-search implementation or job protocol.
+The Rust/CUDA implementation matches the recorded persistent-job seeker build.
+Two source files have additional comment-only modification notices required for
+license attribution; the other 19 selected inputs are byte-identical.
+SOURCE-MANIFEST.json records both original build-input hashes and released-file
+hashes. Packaging omits unused OpenCL experiments and operator files; it does not
+change the CUDA search implementation or job protocol.
 
 Recorded toolchain: rustc 1.99.0, cargo 1.99.0, x86_64-pc-windows-gnu,
 LLVM-MinGW 20261006. The deployment build used target-cpu=native. The generic
